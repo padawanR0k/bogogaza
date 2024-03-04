@@ -19,6 +19,9 @@ dependencies:
     version: 18.2.0(react@18.2.0)
 
 devDependencies:
+  '@types/google.maps':
+    specifier: ^3.55.4
+    version: 3.55.4
   '@types/node':
     specifier: ^20
     version: 20.11.24
@@ -270,6 +273,10 @@ packages:
     dependencies:
       tslib: 2.6.2
     dev: false
+
+  /@types/google.maps@3.55.4:
+    resolution: {integrity: sha512-Ip3IfRs3RZjeC88V8FGnWQTQXeS5gkJedPSosN6DMi9Xs8buGTpsPq6UhREoZsGH+62VoQ6jiRBUR8R77If69w==}
+    dev: true
 
   /@types/json5@0.0.29:
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
