@@ -56,6 +56,10 @@ export const russia = {
   etag: "VlGjMWr9ejCZ3SMsBQp4lqwCEeM",
   items: [
     {
+      coordinate: {
+        lat: 43.133723,
+        lng: 131.91135,
+      },
       kind: "youtube#playlistItem",
       etag: "TyW_3IZkE9axGEBcoSRC8kw9sZM",
       id: "UExoYmpidTRfenhndHBSOGpfZnNvTTVRbnFlSnRSXzF1VC5GNjNDRDREMDQxOThCMDQ2",
@@ -108,6 +112,19 @@ export const russia = {
       },
     },
     {
+      coordinate: {
+        lat: 43.1204752,
+        lng: 131.8827723,
+      },
+      roadmap: [
+        {
+          title: "블라디보스톡 해변공원",
+          coordinate: {
+            lat: 43.11823416561026,
+            lng: 131.87794010082473,
+          },
+        },
+      ],
       kind: "youtube#playlistItem",
       etag: "mp6I_Ebqa7XweK7DJRs-eB7eMm0",
       id: "UExoYmpidTRfenhndHBSOGpfZnNvTTVRbnFlSnRSXzF1VC45NDk1REZENzhEMzU5MDQz",
@@ -991,6 +1008,7 @@ export const eurasia = {
             width: 480,
             height: 360,
           },
+
           standard: {
             url: "https://i.ytimg.com/vi/LbQ7Ewlq3aE/sddefault.jpg",
             width: 640,
@@ -4655,3 +4673,13 @@ export const japan_2024 = {
     resultsPerPage: 50,
   },
 };
+
+export const GUAK_DATA = [
+  russia,
+  ethiopia,
+  eurasia,
+  uzbekistan,
+  japan_2022,
+  northAmerica,
+  japan_2024,
+];

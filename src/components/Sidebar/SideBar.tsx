@@ -4,6 +4,7 @@ import { Accordion, Box, List, ScrollArea } from "@mantine/core";
 import {
   ethiopia,
   eurasia,
+  GUAK_DATA,
   japan_2022,
   japan_2024,
   northAmerica,
@@ -42,17 +43,7 @@ function CountryList({ videos, countryName }: Props) {
   );
 }
 
-const database = [
-  russia,
-  ethiopia,
-  eurasia,
-  uzbekistan,
-  japan_2022,
-  northAmerica,
-  japan_2024,
-];
-
-export function SideBar() {
+export function SideBar({ database }: { database: typeof GUAK_DATA }) {
   return (
     <Box w="30%">
       <ScrollArea h="100vh" scrollbars="y" p={8}>

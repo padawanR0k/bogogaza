@@ -9,10 +9,11 @@ const DEFAULT_CENTER = {
   lat: 37.5665,
   lng: 126.978,
 };
-const DEFAULT_ZOOM = 7;
+const DEFAULT_ZOOM = 3;
 
 import mapStyles from "./Map.module.css";
 import { Loader } from "@mantine/core";
+import { GUAK_DATA } from "@/data/guack";
 
 function Render(children?: ReactElement) {
   return function RenderItem(status: string) {
@@ -40,16 +41,68 @@ const MapWrapper = ({ children }: { children?: ReactElement }) => (
   </div>
 );
 
-function MapCore() {
+function MapCore({ database }: { database: typeof GUAK_DATA }) {
   const ref = useRef<HTMLDivElement | null>(null);
+  const markersRef = useRef<google.maps.Marker[]>([]);
+  const mapRef = useRef<google.maps.Map>(null);
+
+  function getMarker({
+    coordinate,
+    title,
+    label,
+  }: {
+    coordinate: google.maps.LatLngLiteral;
+    title: string;
+    label?: string;
+  }) {
+    return new window.google.maps.Marker({
+      position: coordinate,
+      map: mapRef.current,
+      title: title,
+      label,
+    });
+  }
+
+  function drawMarkers(database: typeof GUAK_DATA) {
+    if (ref.current) {
+      database.forEach((item) => {
+        item.items.forEach((item) => {
+          if (!item.coordinate) {
+            return;
+          }
+
+          const marker = getMarker({
+            coordinate: item.coordinate,
+            title: item.snippet.title,
+          });
+
+          if (!item.roadmap) {
+            return;
+          }
+          console.log(item.roadmap);
+          const roadmap = item.roadmap.map((item) => {
+            return getMarker({
+              coordinate: item.coordinate,
+              title: item.title,
+              label: "R",
+            });
+          });
+
+          markersRef.current.push(marker);
+        });
+      });
+    }
+  }
 
   useEffect(() => {
     // Display the map
     if (ref.current) {
-      new window.google.maps.Map(ref.current, {
+      mapRef.current = new window.google.maps.Map(ref.current, {
         center: DEFAULT_CENTER,
         zoom: DEFAULT_ZOOM,
       });
+
+      drawMarkers(database);
     }
   }, []);
 
@@ -62,10 +115,10 @@ function MapCore() {
   );
 }
 
-export const Map = () => {
+export const Map = ({ database }: { database: typeof GUAK_DATA }) => {
   return (
     <MapWrapper>
-      <MapCore />
+      <MapCore database={database} />
     </MapWrapper>
   );
 };
