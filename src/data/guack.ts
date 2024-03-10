@@ -1,4 +1,57 @@
-const russia = {
+export type YoutubeVideoItem = {
+  kind: string;
+  etag: string;
+  id: string;
+  snippet: {
+    publishedAt: string;
+    channelId: string;
+    title: string;
+    description: string;
+    thumbnails: {
+      default: {
+        url: string;
+        width: number;
+        height: number;
+      };
+      medium: {
+        url: string;
+        width: number;
+        height: number;
+      };
+      high: {
+        url: string;
+        width: number;
+        height: number;
+      };
+      standard: {
+        url: string;
+        width: number;
+        height: number;
+      };
+      maxres: {
+        url: string;
+        width: number;
+        height: number;
+      };
+    };
+    channelTitle: string;
+    playlistId: string;
+    position: number;
+    resourceId: {
+      kind: string;
+      videoId: string;
+    };
+    videoOwnerChannelTitle: string;
+    videoOwnerChannelId: string;
+  };
+  contentDetails: {
+    videoId: string;
+    videoPublishedAt: string;
+  };
+};
+
+export const russia = {
+  title: "러시아",
   kind: "youtube#playlistItemListResponse",
   etag: "VlGjMWr9ejCZ3SMsBQp4lqwCEeM",
   items: [
@@ -531,9 +584,10 @@ const russia = {
     resultsPerPage: 50,
   },
 };
-const etiopia = {
+export const ethiopia = {
   kind: "youtube#playlistItemListResponse",
   etag: "1tWI8W9pNrcGClyQ6h7mndENjNI",
+  title: "에티오피아",
   items: [
     {
       kind: "youtube#playlistItem",
@@ -906,9 +960,10 @@ const etiopia = {
     resultsPerPage: 50,
   },
 };
-const eurasia = {
+export const eurasia = {
   kind: "youtube#playlistItemListResponse",
   etag: "IAEfbptg3Q_5QHwWgLiIKOwohMY",
+  title: "유라시아",
   items: [
     {
       kind: "youtube#playlistItem",
@@ -2892,7 +2947,8 @@ const eurasia = {
     resultsPerPage: 50,
   },
 };
-const uzbeck = {
+export const uzbekistan = {
+  title: "우즈베키스탄",
   kind: "youtube#playlistItemListResponse",
   etag: "F7-AAB7czvP7A1vvcRDzfVUxJK4",
   items: [
@@ -3266,7 +3322,8 @@ const uzbeck = {
     resultsPerPage: 50,
   },
 };
-const japan_2022 = {
+export const japan_2022 = {
+  title: "일본(2022)",
   kind: "youtube#playlistItemListResponse",
   etag: "MQ75StYZQPWhrJJDQyx2APZp3c0",
   items: [
@@ -3536,7 +3593,8 @@ const japan_2022 = {
     resultsPerPage: 50,
   },
 };
-const northAmerica = {
+export const northAmerica = {
+  title: "북중미",
   kind: "youtube#playlistItemListResponse",
   etag: "Z49kDZThXkgLwMM_F37Z6DxhD8c",
   items: [
@@ -4378,7 +4436,8 @@ const northAmerica = {
     resultsPerPage: 50,
   },
 };
-const japan_2024 = {
+export const japan_2024 = {
+  title: "일본 (2024)",
   kind: "youtube#playlistItemListResponse",
   etag: "1DTXZlrwgFqqJ6RPOS48yLgMvgk",
   items: [

@@ -12,12 +12,13 @@ const DEFAULT_CENTER = {
 const DEFAULT_ZOOM = 7;
 
 import mapStyles from "./Map.module.css";
+import { Loader } from "@mantine/core";
 
 function Render(children?: ReactElement) {
   return function RenderItem(status: string) {
     switch (status) {
       case Status.LOADING:
-        return <>...loading</>;
+        return <Loader />;
       case Status.FAILURE:
         return <>Error</>;
       case Status.SUCCESS:
