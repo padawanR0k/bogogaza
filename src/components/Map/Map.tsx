@@ -56,7 +56,7 @@ function MapCore() {
     <div
       id="map"
       ref={ref}
-      style={{ width: "1000px", height: "700px", background: "white" }}
+      style={{ width: "100%", height: "100vh", background: "white" }}
     />
   );
 }
