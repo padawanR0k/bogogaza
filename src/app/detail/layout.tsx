@@ -11,8 +11,6 @@ export default function DetailLayout({
         position: "absolute",
         right: "0",
         top: "0",
-        maxWidth: "640px",
-        width: "50vw",
       }}
     >
       {children}

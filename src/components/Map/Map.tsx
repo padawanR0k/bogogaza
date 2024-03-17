@@ -1,7 +1,14 @@
 "use client";
 
 import { Status, Wrapper } from "@googlemaps/react-wrapper";
-import React, { createContext, ReactElement, useEffect, useRef } from "react";
+import React, {
+  createContext,
+  ReactElement,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import { Loader } from "@mantine/core";
 
 import mapStyles from "./Map.module.css";
@@ -50,26 +57,29 @@ function MapCore({
 }) {
   const ref = useRef<HTMLDivElement | null>(null);
   const markersRef = useRef<google.maps.Marker[]>([]);
-  const mapRef = useRef<google.maps.Map>(null);
+  const [map, setMap] = useState<google.maps.Map | null>(null);
 
-  function getMarker({
-    coordinate,
-    title,
-    label,
-  }: {
-    coordinate: google.maps.LatLngLiteral;
-    title: string;
-    label?: string;
-  }) {
+  function getMarker(
+    map: google.maps.Map,
+    {
+      coordinate,
+      title,
+      label,
+    }: {
+      coordinate: google.maps.LatLngLiteral;
+      title: string;
+      label?: string;
+    },
+  ) {
     return new window.google.maps.Marker({
       position: coordinate,
-      map: mapRef.current,
+      map: map,
       title: title,
       label,
     });
   }
 
-  function drawMarkers(database: typeof GUAK_DATA) {
+  function drawMarkers(database: typeof GUAK_DATA, map: google.maps.Map) {
     if (ref.current) {
       database.forEach((item) => {
         item.items.forEach((item) => {
@@ -77,7 +87,7 @@ function MapCore({
             return;
           }
 
-          const marker = getMarker({
+          const marker = getMarker(map, {
             coordinate: item.coordinate,
             title: item.snippet.title,
           });
@@ -86,7 +96,7 @@ function MapCore({
             return;
           }
           const roadmap = item.roadmap.map((item) => {
-            return getMarker({
+            return getMarker(map, {
               coordinate: item.coordinate,
               title: item.title,
               label: "R",
@@ -99,31 +109,36 @@ function MapCore({
     }
   }
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     // Display the map
-    if (ref.current) {
-      mapRef.current = new window.google.maps.Map(ref.current, {
+    if (ref.current && map === null) {
+      console.count("123");
+      const map = new window.google.maps.Map(ref.current, {
         center: DEFAULT_CENTER,
         zoom: DEFAULT_ZOOM,
       });
 
-      drawMarkers(database);
+      setMap(map);
+
+      drawMarkers(database, map);
     }
   }, []);
 
   return (
-    <GoogleMapContext.Provider
-      value={{
-        map: mapRef.current,
-      }}
-    >
+    <>
       <div
         id="map"
         ref={ref}
         style={{ width: "100%", height: "100vh", background: "white" }}
       />
-      {children}
-    </GoogleMapContext.Provider>
+      <GoogleMapContext.Provider
+        value={{
+          map: map,
+        }}
+      >
+        {children}
+      </GoogleMapContext.Provider>
+    </>
   );
 }
 

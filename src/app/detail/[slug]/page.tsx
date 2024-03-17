@@ -29,9 +29,10 @@ export default function DetailPage(props: any) {
     const lat = searchParams.get("lat");
     const lng = searchParams.get("lng");
     if (lat && lng) {
-      // zoom level 3
-      mapContext.map?.setCenter({ lat: parseFloat(lat), lng: parseFloat(lng) });
-      mapContext.map?.setZoom(3);
+      const point = new window.google.maps.LatLng(Number(lat), Number(lng));
+
+      mapContext.map?.setCenter(point);
+      mapContext.map?.setZoom(14);
     }
   }, []);
 
@@ -52,11 +53,13 @@ export default function DetailPage(props: any) {
         </Group>
       </Card.Section>
 
-      <Card.Section h={360}>
+      <Card.Section h={270}>
         <YouTube
           videoId={id}
           opts={{
             autoplay: 1,
+            width: "480px",
+            height: "270px",
           }}
         />
       </Card.Section>
