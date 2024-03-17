@@ -12,6 +12,7 @@ import {
   uzbekistan,
   YoutubeVideoItem,
 } from "@/data/guack";
+import Link from "next/link";
 
 type Props = {
   countryName: string;
@@ -31,12 +32,9 @@ function CountryList({ videos, countryName }: Props) {
     <List size="sm">
       {videos.map((item) => (
         <List.Item key={item.id}>
-          <a
-            target="_blank"
-            href={`https://www.youtube.com/embed/${item.snippet.resourceId.videoId}`}
-          >
+          <Link href={`/detail/${item.snippet.resourceId.videoId}`}>
             {item.snippet.title}
-          </a>
+          </Link>
         </List.Item>
       ))}
     </List>
