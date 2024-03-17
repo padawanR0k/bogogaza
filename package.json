@@ -15,7 +15,8 @@
     "@mantine/modals": "^7.6.1",
     "next": "14.1.0",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "react-youtube": "^10.1.0"
   },
   "devDependencies": {
     "@types/google.maps": "^3.55.4",
@@ -25,6 +26,7 @@
     "eslint": "^8",
     "eslint-config-next": "14.1.0",
     "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-react": "^7.34.0",
     "postcss": "^8.4.35",
     "postcss-preset-mantine": "^1.13.0",
