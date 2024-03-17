@@ -42,6 +42,7 @@ const MapWrapper = ({ children }: { children?: ReactElement }) => (
     <Wrapper
       apiKey={process.env.NEXT_PUBLIC_GOOGLE_API_KEY}
       render={Render(children)}
+      libraries={["marker"]}
     >
       {children}
     </Wrapper>
@@ -71,11 +72,10 @@ function MapCore({
       label?: string;
     },
   ) {
-    return new window.google.maps.Marker({
+    return new window.google.maps.marker.AdvancedMarkerElement({
       position: coordinate,
       map: map,
       title: title,
-      label,
     });
   }
 
@@ -116,6 +116,7 @@ function MapCore({
       const map = new window.google.maps.Map(ref.current, {
         center: DEFAULT_CENTER,
         zoom: DEFAULT_ZOOM,
+        mapId: "ID2ab93894f0d3cce2",
       });
 
       setMap(map);
