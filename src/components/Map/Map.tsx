@@ -1,8 +1,12 @@
 "use client";
 
 import { Status, Wrapper } from "@googlemaps/react-wrapper";
-import { ReactElement } from "react";
-import { useEffect, useRef } from "react";
+import React, { createContext, ReactElement, useEffect, useRef } from "react";
+import { Loader } from "@mantine/core";
+
+import mapStyles from "./Map.module.css";
+
+import { GUAK_DATA } from "@/data/guack";
 
 // seoul
 const DEFAULT_CENTER = {
@@ -10,10 +14,6 @@ const DEFAULT_CENTER = {
   lng: 126.978,
 };
 const DEFAULT_ZOOM = 3;
-
-import mapStyles from "./Map.module.css";
-import { Loader } from "@mantine/core";
-import { GUAK_DATA } from "@/data/guack";
 
 function Render(children?: ReactElement) {
   return function RenderItem(status: string) {
@@ -41,7 +41,13 @@ const MapWrapper = ({ children }: { children?: ReactElement }) => (
   </div>
 );
 
-function MapCore({ database }: { database: typeof GUAK_DATA }) {
+function MapCore({
+  database,
+  children,
+}: {
+  database: typeof GUAK_DATA;
+  children?: React.ReactNode;
+}) {
   const ref = useRef<HTMLDivElement | null>(null);
   const markersRef = useRef<google.maps.Marker[]>([]);
   const mapRef = useRef<google.maps.Map>(null);
@@ -79,7 +85,6 @@ function MapCore({ database }: { database: typeof GUAK_DATA }) {
           if (!item.roadmap) {
             return;
           }
-          console.log(item.roadmap);
           const roadmap = item.roadmap.map((item) => {
             return getMarker({
               coordinate: item.coordinate,
@@ -107,18 +112,37 @@ function MapCore({ database }: { database: typeof GUAK_DATA }) {
   }, []);
 
   return (
-    <div
-      id="map"
-      ref={ref}
-      style={{ width: "100%", height: "100vh", background: "white" }}
-    />
+    <GoogleMapContext.Provider
+      value={{
+        map: mapRef.current,
+      }}
+    >
+      <div
+        id="map"
+        ref={ref}
+        style={{ width: "100%", height: "100vh", background: "white" }}
+      />
+      {children}
+    </GoogleMapContext.Provider>
   );
 }
 
-export const Map = ({ database }: { database: typeof GUAK_DATA }) => {
+export const GoogleMapContext = createContext<{
+  map: google.maps.Map | null;
+}>({
+  map: null,
+});
+
+export const Map = ({
+  database,
+  children,
+}: {
+  database: typeof GUAK_DATA;
+  children: React.ReactNode;
+}) => {
   return (
     <MapWrapper>
-      <MapCore database={database} />
+      <MapCore database={database}>{children}</MapCore>
     </MapWrapper>
   );
 };

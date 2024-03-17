@@ -9,9 +9,10 @@ export default function DetailLayout({
     <Box
       style={{
         position: "absolute",
-        left: "50%",
+        right: "0",
         top: "0",
-        transform: "translate(-50%, 0)",
+        maxWidth: "640px",
+        width: "50vw",
       }}
     >
       {children}

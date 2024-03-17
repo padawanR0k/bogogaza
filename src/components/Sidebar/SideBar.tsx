@@ -1,18 +1,9 @@
 "use client";
 
-import { Accordion, Box, List, ScrollArea } from "@mantine/core";
-import {
-  ethiopia,
-  eurasia,
-  GUAK_DATA,
-  japan_2022,
-  japan_2024,
-  northAmerica,
-  russia,
-  uzbekistan,
-  YoutubeVideoItem,
-} from "@/data/guack";
+import { Accordion, Box, List, ScrollArea, Text } from "@mantine/core";
 import Link from "next/link";
+
+import { GUAK_DATA, YoutubeVideoItem } from "@/data/guack";
 
 type Props = {
   countryName: string;
@@ -32,8 +23,15 @@ function CountryList({ videos, countryName }: Props) {
     <List size="sm">
       {videos.map((item) => (
         <List.Item key={item.id}>
-          <Link href={`/detail/${item.snippet.resourceId.videoId}`}>
-            {item.snippet.title}
+          <Link
+            href={{
+              pathname: `/detail/${item.snippet.resourceId.videoId}`,
+              query: item.coordinate,
+            }}
+          >
+            <Text size="sm" c="gray.9">
+              {item.snippet.title}
+            </Text>
           </Link>
         </List.Item>
       ))}
