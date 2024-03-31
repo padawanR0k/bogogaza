@@ -10,6 +10,7 @@ export type YoutubeVideoItem = {
   roadmap?: Array<{
     coordinate: Coordinate;
     title: string;
+    timestamp: number;
   }>;
   snippet: {
     publishedAt: string;
@@ -135,6 +136,7 @@ export const russia = {
       roadmap: [
         {
           title: "블라디보스톡 해변공원",
+          timestamp: 315, // youtube video timestamp
           coordinate: {
             lat: 43.11823416561026,
             lng: 131.87794010082473,

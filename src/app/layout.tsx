@@ -7,6 +7,7 @@ import "./globals.css";
 import { SideBar } from "@/components/Sidebar/SideBar";
 import { GUAK_DATA } from "@/data/guack";
 import { Map } from "@/components/Map/Map";
+import { YoutubeProvider } from "@/components/Youtube/YoutubeVideo";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,8 +28,10 @@ export default function RootLayout({
       <body className={inter.className}>
         <MantineProvider theme={theme} defaultColorScheme="light">
           <Flex direction="row" w="100%" m={0}>
-            <SideBar database={GUAK_DATA} />
-            <Map database={GUAK_DATA}>{children}</Map>
+            <YoutubeProvider>
+              <SideBar database={GUAK_DATA} />
+              <Map database={GUAK_DATA}>{children}</Map>
+            </YoutubeProvider>
           </Flex>
         </MantineProvider>
       </body>

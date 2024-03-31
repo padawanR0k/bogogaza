@@ -1,21 +1,10 @@
 "use client";
-import {
-  ActionIcon,
-  Box,
-  Card,
-  Group,
-  Menu,
-  Text,
-  rem,
-  CloseButton,
-} from "@mantine/core";
-import YouTube from "react-youtube";
-import { useSearchParams } from "next/navigation";
+import { Box, Card, CloseButton, Group } from "@mantine/core";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useContext, useEffect } from "react";
-import { IconDots } from "@tabler/icons-react";
-import { useRouter } from "next/navigation";
 
 import { GoogleMapContext } from "@/components/Map/Map";
+import { YoutubeVideo } from "@/components/Youtube/YoutubeVideo";
 
 export default function DetailPage(props: any) {
   const id = props.params.slug;
@@ -54,14 +43,7 @@ export default function DetailPage(props: any) {
       </Card.Section>
 
       <Card.Section h={270}>
-        <YouTube
-          videoId={id}
-          opts={{
-            autoplay: 1,
-            width: "480px",
-            height: "270px",
-          }}
-        />
+        <YoutubeVideo id={id} />
       </Card.Section>
     </Card>
   );

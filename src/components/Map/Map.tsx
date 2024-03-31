@@ -4,6 +4,7 @@ import { Status, Wrapper } from "@googlemaps/react-wrapper";
 import React, {
   createContext,
   ReactElement,
+  useContext,
   useLayoutEffect,
   useRef,
   useState,
@@ -11,6 +12,7 @@ import React, {
 import { Loader } from "@mantine/core";
 
 import mapStyles from "./Map.module.css";
+import { YoutubeContext } from "../Youtube/YoutubeVideo";
 
 import { Coordinate, GUAK_DATA, russia, YoutubeRawData } from "@/data/guack";
 
@@ -45,6 +47,7 @@ const MapWrapper = ({ children }: { children?: ReactElement }) => (
       apiKey={process.env.NEXT_PUBLIC_GOOGLE_API_KEY}
       render={Render(children)}
       libraries={["marker"]}
+      version="beta" // for advanced marker click
     >
       {children}
     </Wrapper>
@@ -63,6 +66,12 @@ function MapCore({
   const polyLinesRef = useRef<google.maps.Polyline[]>([]);
   const [map, setMap] = useState<google.maps.Map | null>(null);
 
+  const playerContext = useContext(YoutubeContext);
+
+  if (!playerContext) {
+    throw new Error("YoutubeContext is not provided");
+  }
+
   function getMarker(
     map: google.maps.Map,
     {
@@ -70,11 +79,13 @@ function MapCore({
       title,
       index,
       subIndex,
+      onClick,
     }: {
       coordinate: google.maps.LatLngLiteral;
       title: string;
       index: number;
       subIndex?: number;
+      onClick?: () => void;
     },
   ) {
     const markerElement = document.createElement("div");
@@ -88,13 +99,20 @@ function MapCore({
     markerElement.style.lineHeight = "20px";
     markerElement.style.border = "1px solid #ddd";
     markerElement.textContent = `${index}${subIndex ? ` - ${subIndex}` : ""}`;
-
-    return new window.google.maps.marker.AdvancedMarkerElement({
-      position: coordinate,
-      map: map,
-      title: title,
-      content: markerElement,
+    markerElement.addEventListener("click", () => {
+      onClick?.();
     });
+
+    const advancedMarkerElement =
+      new window.google.maps.marker.AdvancedMarkerElement({
+        position: coordinate,
+        map: map,
+        title: title,
+        content: markerElement,
+        gmpClickable: true,
+      });
+
+    return advancedMarkerElement;
   }
 
   function getPolyLine(
@@ -126,10 +144,11 @@ function MapCore({
             return;
           }
 
+          const mainMarkerIndex = index + 1;
           const marker = getMarker(map, {
             coordinate: item.coordinate,
             title: item.snippet.title,
-            index: index + 1,
+            index: mainMarkerIndex,
           });
 
           if (!item.roadmap) {
@@ -140,8 +159,23 @@ function MapCore({
             return getMarker(map, {
               coordinate: item.coordinate,
               title: item.title,
-              index,
+              index: mainMarkerIndex,
               subIndex: subIndex + 1,
+              onClick: () => {
+                // 현재 플레이어의 영상안의 로드맵이면 그대로 유지하고 타임스탬프만 ㅏㅂ꾼다.
+                // 현재 플레이어의 영상밖의 로드맵이면 영상을 바꾼다.
+                // 모든건 url로 관리해야됨.
+
+                // *코파일럿이 추천해준 기능들.
+                // 그래야 들어오자마자 바로 그 때로 가능하니까
+                // 그래야 SEO가 가능하니까
+                // 그래야 뒤로가기가 가능하니까
+                // 그래야 새로고침이 가능하니까
+                // 그래야 북마크가 가능하니까
+                // 그래야 링크로 공유가 가능하니까
+
+                playerContext?.setTimestamp(item.timestamp);
+              },
             });
           });
 
