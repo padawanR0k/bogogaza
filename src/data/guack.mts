@@ -1,16 +1,7 @@
-export type Coordinate = {
-  lat: number;
-  lng: number;
-};
 export type YoutubeVideoItem = {
   kind: string;
   etag: string;
   id: string;
-  coordinate?: Coordinate;
-  roadmap?: Array<{
-    coordinate: Coordinate;
-    title: string;
-  }>;
   snippet: {
     publishedAt: string;
     channelId: string;
@@ -57,13 +48,6 @@ export type YoutubeVideoItem = {
     videoId: string;
     videoPublishedAt: string;
   };
-};
-
-export type YoutubeRawData = {
-  title: string;
-  kind: string;
-  etag: string;
-  items: YoutubeVideoItem[];
 };
 
 export const russia = {
